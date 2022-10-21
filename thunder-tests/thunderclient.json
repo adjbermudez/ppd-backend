@@ -4,16 +4,16 @@
     "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
     "containerId": "86b0a403-3478-40f4-997a-41ef3ccc4b99",
     "name": "signup",
-    "url": "https://ppd-api.herokuapp.com/api/user",
+    "url": "http://localhost:3001/api/user",
     "method": "POST",
     "sortNum": 30000,
     "created": "2022-10-11T22:18:28.961Z",
-    "modified": "2022-10-12T00:38:43.634Z",
+    "modified": "2022-10-21T00:21:43.787Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\":\"deimianvasquez@gmail.com\",\n  \"fullname\":\"Deimian Vásquez\",\n  \"password\":\"123456789\"\n}",
+      "raw": "{\n  \"email\":\"deimianvasquez@gmail.com\",\n  \"fullname\":\"Deimian Vásquez\",\n  \"password\":\"123456789\",\n  \"rol\":\"ADMINISTRATOR\"\n}",
       "form": []
     },
     "tests": []
@@ -23,11 +23,11 @@
     "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
     "containerId": "86b0a403-3478-40f4-997a-41ef3ccc4b99",
     "name": "get_user",
-    "url": "https://ppd-api.herokuapp.com/api/user",
+    "url": "https//localhost:3001/api/user",
     "method": "GET",
     "sortNum": 40000,
     "created": "2022-10-11T22:38:13.062Z",
-    "modified": "2022-10-13T06:02:38.427Z",
+    "modified": "2022-10-21T00:21:32.498Z",
     "headers": [],
     "params": [],
     "tests": []
