@@ -1,6 +1,6 @@
 from crypt import methods
 from flask import Flask, Blueprint, jsonify, request
-from api.models import User, Unore, News
+from api.models import User, Unore, News, db
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import cloudinary.uploader as uploader
 
@@ -195,4 +195,33 @@ def create_news():
       uploader.destroy(data['public_id_preview'])
       return jsonify({'message':'Error try again later'}), 500
     return jsonify(), 500
+  return jsonify({'message':'method not allowed'}),405
+
+
+@api.route("/news/<int:news_id>", methods=["DELETE"])
+@jwt_required()
+def delete_news(news_id=None):
+  if request.method == "DELETE":
+    if news_id is None:
+      return jsonify({'message':'Bad request'}), 400
+
+    if news_id is not None:
+      news = News.query.get(news_id)
+
+      if news is None:
+        return jsonify({'message':'News not found'}), 404
+      
+      if news.user_id != get_jwt_identity():
+        return jsonify({'message':'Unauthorized'}), 401
+      
+      try:
+        # uploader.destroy(news.public_id_image)
+        # uploader.destroy(news.public_id_secondary)
+        # uploader.destroy(news.public_id_preview)
+        db.session.delete(news)
+        db.session.commit()
+        return jsonify({'message':'News deleted'}), 204
+      except Exception as error:
+        print(error.args)
+        return jsonify({'message':'Error try again later'}), 500
   return jsonify({'message':'method not allowed'}),405
