@@ -33,10 +33,11 @@ class User(db.Model):
   news = db.relationship('News', backref='user', uselist=True)
 
 
-  def __init__(self, email, fullname, password ):
+  def __init__(self, email, fullname, password, rol):
     self.email = email,
     self.fullname = fullname,
     self.password = password
+    self.rol = rol
     self.salt = b64encode(os.urandom(32)).decode("utf-8")
 
 
@@ -88,6 +89,7 @@ class User(db.Model):
   def create(cls, data):
     try:
       data = cls(**data)
+      print(data)
       data.set_password(data.password)
       data.created_at = datetime.now()
       db.session.add(data)
@@ -95,6 +97,7 @@ class User(db.Model):
       return data
     except Exception as error:
       db.session.rollback()
+      print(error.args)
       return None
   
 
@@ -175,9 +178,10 @@ class News(db.Model):
   title = db.Column(db.String(250), nullable=False)
   subtitle = db.Column(db.Text, nullable=False)
   summary = db.Column(db.Text, nullable=False)
+  highlighted =db.Column(db.Text, nullable=False)
   complete = db.Column(db.Text, nullable=False)
   image = db.Column(db.String(200), nullable=False)
-  image_secondary = db.Column(db.String(200), nullable=False)
+  image_secondary = db.Column(db.String(200), nullable=True)
   image_preview = db.Column(db.String(200), nullable=False)
   public_id_image = db.Column(db.String(100), nullable=False)
   public_id_secondary = db.Column(db.String(100), nullable=False)
@@ -222,6 +226,7 @@ class News(db.Model):
       'image':self.image,
       'image_secondary':self.image_secondary,
       'image_preview':self.image_preview,   
+      'highlighted':self.highlighted,
     }
 
   

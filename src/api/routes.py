@@ -131,7 +131,7 @@ def create_news():
   if request.method == 'POST':
     data_files = request.files
     data_form = request.form
-    print(data_form)
+    
     data = {
       'title':data_form.get('title'),
       'subtitle':data_form.get('subtitle'),
@@ -140,45 +140,50 @@ def create_news():
       'user_id':get_jwt_identity(),
       'image':data_files.get('image'),
       'image_secondary':data_files.get('image_secondary'),
-      'image_preview':data_files.get('image_preview')
+      'image_preview':data_files.get('image_preview'),
+      'highlighted':data_form.get('highlight')
     }
-    print(request.files,"hola")
 
+    
     if data is None:
-      print("1")
       return jsonify({'message':'Bad request'}), 400
     if data.get('title') is None:
-      print("2")
       return jsonify({'message':'Bad request'}), 400
     if data.get('subtitle') is None:  
-      print("3")
       return jsonify({'message':'Bad request'}), 400
     if data.get('summary') is None:
-      print("4")
       return jsonify({'message':'Bad request'}), 400
     if data.get('complete') is None:
-      print("5")
       return jsonify({'message':'Bad request'}), 400
     if data.get('image') is None:
-      print("6")
       return jsonify({'message':'Bad request'}), 400
-    if data.get('image_secondary') is None:
-      print("7")
-      return jsonify({'message':'Bad request'}), 400
+    # if data.get('image_secondary') is None:
+    #   return jsonify({'message':'Bad request'}), 400
     if data.get('image_preview') is None:
-      print("8")
       return jsonify({'message':'Bad request'}), 400
 
-    res_image = uploader.upload(data_files["image"])
-    res_image_secondary = uploader.upload(data_files["image_secondary"])
-    res_image_preview = uploader.upload(data_files["image_preview"])
+    if data.get('image_secondary') is None:
+      res_image_preview = uploader.upload(data_files["image_preview"])
+      res_image = uploader.upload(data_files["image"])
 
-    data.update({'image':res_image['secure_url']})
-    data.update({'image_secondary':res_image_secondary['secure_url']})
-    data.update({'image_preview':res_image_preview['secure_url']})
-    data.update({'public_id_image':res_image['public_id']})
-    data.update({'public_id_secondary':res_image_secondary['public_id']})
-    data.update({'public_id_preview':res_image_preview['public_id']})
+      data.update({'image':res_image['secure_url']})
+      data.update({'image_preview':res_image_preview['secure_url']})
+      data.update({'public_id_image':res_image['public_id']})
+      data.update({'public_id_preview':res_image_preview['public_id']})
+      data.update({'image_secondary':""})
+      data.update({'public_id_secondary':""})
+    else:
+      # si mandan las tres imagenes
+      res_image = uploader.upload(data_files["image"])
+      res_image_secondary = uploader.upload(data_files["image_secondary"])
+      res_image_preview = uploader.upload(data_files["image_preview"])
+
+      data.update({'image':res_image['secure_url']})
+      data.update({'image_secondary':res_image_secondary['secure_url']})
+      data.update({'image_preview':res_image_preview['secure_url']})
+      data.update({'public_id_image':res_image['public_id']})
+      data.update({'public_id_secondary':res_image_secondary['public_id']})
+      data.update({'public_id_preview':res_image_preview['public_id']})
 
    
     news = News.create(data)
