@@ -261,17 +261,14 @@ def send_email():
       return jsonify({'message':'Bad request'}), 400
     if data.get('subject') is None:
       return jsonify({'message':'Bad request'}), 400
+ 
+    message = f"Subject: {data.get('subject')}\nReply-To: {data.get('emailAddress')}\nFrom: {data.get('emailAddress')}\nTo: deimianvasquez@gmail.com\n\n{data.get('message')}"
 
-    # message = f"Subject: {data.get('subject')}\n\n Reply-to: {data.get('email')}\n\n{data.get('message')}"
-    message = f"Subject: {data.get('subject')}\nReply-To: {data.get('emailAddress')}\nFrom: {data.get('emailAddress')}\nTo: alexis.bermudez@undp.org\n\n{data.get('message')}"
-
-   
     try:
-      server = smtplib.SMTP('mail.merawear.com', 587)
+      server = smtplib.SMTP('mail.ppdvenezuela.org', 587)
       server.starttls()
-      # server.login("ropamera@gmail.com", "whepujvkjcxgmvkh")
       server.login("sending@ppdvenezuela.org", "Kenco800")
-      server.sendmail("sending@ppdvenezuela.org", "alexis.bermudez@undp.org" , message)
+      server.sendmail("sending@ppdvenezuela.org", "deimianvasquez@gmail.com" , message)
       server.quit()
       print("Email send")
       return jsonify({'message':'Email send'}), 200
@@ -279,7 +276,7 @@ def send_email():
       print(error.args)
       print("Email not sending error ")
       return jsonify({'message':'Error try again later'}), 500
-    return jsonify([]), 200
+  return jsonify({'message':'method not allowed'}),405
 
 
 
