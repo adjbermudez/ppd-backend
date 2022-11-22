@@ -262,13 +262,13 @@ def send_email():
     if data.get('subject') is None:
       return jsonify({'message':'Bad request'}), 400
  
-    message = f"Subject: {data.get('subject')}\nReply-To: {data.get('emailAddress')}\nFrom: {data.get('emailAddress')}\nTo: deimianvasquez@gmail.com\n\n{data.get('message')}"
+    message = f"Subject: {data.get('subject')}\nReply-To: {data.get('emailAddress')}\nFrom: {data.get('emailAddress')}\nTo: alexis.bermudez@undp.org\n\n{data.get('message')}"
 
     try:
       server = smtplib.SMTP('mail.ppdvenezuela.org', 587)
       server.starttls()
       server.login("sending@ppdvenezuela.org", "Kenco800")
-      server.sendmail("sending@ppdvenezuela.org", "deimianvasquez@gmail.com" , message)
+      server.sendmail("sending@ppdvenezuela.org", "alexis.bermudez@undp.org" , message)
       server.quit()
       print("Email send")
       return jsonify({'message':'Email send'}), 200
