@@ -18,25 +18,18 @@ def verify():
     return jsonify({"verified": False}), 401
 
 
-@api.route('/user', methods=['GET'])
-@api.route('/user/<int:id>', methods=['GET'])
-def get_users(id=None):
-  if request.method == 'GET':
-    if id is not None:
-      user = User.get_user(id)
-      if type(user) == User:
-        return user.serialize()
-      if user is None:
-        return jsonify({'message':"User not found"}), 404
-      return jsonify(user), 500
-    
-    if id is None:
-      users = User.get_all_users()
-      if users:
-        return jsonify(list(map(lambda user: user.serialize(), users))), 200
-      else:
-        return jsonify(users),500
-  return jsonify({'message':'method not allowed'}),405
+@api.route("/user", methods=["GET"])
+@jwt_required()
+def get_user():
+  user_id = get_jwt_identity()
+  user = User.query.filter_by(id=user_id).one_or_none()
+  
+  if user.rol.value[0] == "administrator":
+    users = User.query.all()
+    return jsonify([user.serialize() for user in users]), 200
+  else:
+    return jsonify({"message": "You are not authorized to access this resource"}), 401
+  return jsonify([]), 200
 
 
 @api.route('/user', methods=['POST'])
@@ -73,7 +66,8 @@ def login():
     user = User.login(data["email"], data["password"])
     if type(user) == User:
       access_token = create_access_token(identity=user.id)
-      return jsonify(access_token=access_token), 200
+      user = User.query.filter_by(id=user.id).one_or_none()
+      return jsonify(access_token=access_token, user=user.serialize()), 200
     if user is None:
       return jsonify({'message':'Bad credentials'}), 400
     return jsonify(user), 500
@@ -227,25 +221,25 @@ def delete_news(news_id=None):
         return jsonify({'message':'Error try again later'}), 500
   return jsonify({'message':'method not allowed'}),405
 
-@api.route("/user/<int:user_id>", methods=["PUT"])
-def update_user(user_id=None):
-  if request.method == "PUT":
-    print("entro")
-    user = User.query.get(user_id)
-    if user is None:
-      return jsonify({'message':'User not found'}), 404
+# @api.route("/user/<int:user_id>", methods=["PUT"])
+# def update_user(user_id=None):
+#   if request.method == "PUT":
+#     print("entro")
+#     user = User.query.get(user_id)
+#     if user is None:
+#       return jsonify({'message':'User not found'}), 404
 
-    user.email = "adjbermudez@gmail.com"
+#     user.email = "adjbermudez@gmail.com"
 
-    try:
-      db.session.commit()
-      return jsonify({'message':'User updated'}), 200
-    except Exception as error:
-      print(error.args)
-      return jsonify({'message':'Error try again later'}), 500
+#     try:
+#       db.session.commit()
+#       return jsonify({'message':'User updated'}), 200
+#     except Exception as error:
+#       print(error.args)
+#       return jsonify({'message':'Error try again later'}), 500
       
-    print(user.serialize())
-  return jsonify({'message':'method not allowed'}),405
+#     print(user.serialize())
+#   return jsonify({'message':'method not allowed'}),405
 
 @api.route("/contact", methods=["POST"])
 def send_email():

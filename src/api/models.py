@@ -47,8 +47,6 @@ class User(db.Model):
       'fullname':self.fullname,
       'email':self.email,
       'created_at': self.created_at,
-      'salt':self.salt,
-			'password':self.password,
       'status':self.status.value,
 			'rol':self.rol.value
     }
