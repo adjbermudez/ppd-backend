@@ -162,9 +162,11 @@ def create_news():
       res_image = uploader.upload(data_files["image"])
 
       data.update({'image':res_image['secure_url']})
-      data.update({'image_preview':res_image_preview['secure_url']})
       data.update({'public_id_image':res_image['public_id']})
+
+      data.update({'image_preview':res_image_preview['secure_url']})
       data.update({'public_id_preview':res_image_preview['public_id']})
+
       data.update({'image_secondary':""})
       data.update({'public_id_secondary':""})
     else:
@@ -191,6 +193,38 @@ def create_news():
       return jsonify({'message':'Error try again later'}), 500
     return jsonify(), 500
   return jsonify({'message':'method not allowed'}),405
+
+
+#update news 
+@api.route("/news/<int:news_id>", methods=["PUT"])
+@jwt_required()
+def update_news(news_id=None):
+  if request.method == "PUT":
+    data_files = request.files
+    data_form = request.form
+
+    data = {
+      'title':data_form.get('title'),
+      'subtitle':data_form.get('subtitle'),
+      'summary':data_form.get('summary'),
+      'complete':data_form.get('complete'),
+      'user_id':get_jwt_identity(),
+      'highlighted':data_form.get('highlighted'),
+      'image':data_files.get('image'),
+      'image_secondary':data_files.get('image_secondary'),
+      'image_preview':data_files.get('image_preview')
+    }
+
+    if news_id is not None:
+      news = News.update(data, news_id)
+
+      if type(news) == News:
+        return news.serialize(), 201
+      if news is None:
+        return jsonify({'message':'Error try again later'}), 500
+      return jsonify(), 500
+  return jsonify({'message':'method not allowed'}),405
+
 
 
 @api.route("/news/<int:news_id>", methods=["DELETE"])

@@ -4,15 +4,14 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
+import cloudinary.uploader as uploader
 
 
 db = SQLAlchemy()
 
-
 class UserRol(Enum):
 	ADMINISTRATOR='administrator',
 	GENERAL ='general'
-
 
 class UserStatus(Enum):
 	ACTIVE = "active",
@@ -50,7 +49,6 @@ class User(db.Model):
       'status':self.status.value,
 			'rol':self.rol.value
     }
-
 
   def set_password(self, password):
     self.password = generate_password_hash(f'{password}{self.salt}')
@@ -176,7 +174,7 @@ class News(db.Model):
   title = db.Column(db.String(250), nullable=False)
   subtitle = db.Column(db.Text, nullable=False)
   summary = db.Column(db.Text, nullable=False)
-  highlighted =db.Column(db.Text, nullable=False)
+  highlighted = db.Column(db.Text, nullable=False)
   complete = db.Column(db.Text, nullable=False)
   image = db.Column(db.String(200), nullable=False)
   image_secondary = db.Column(db.String(200), nullable=True)
@@ -226,5 +224,46 @@ class News(db.Model):
       'image_preview':self.image_preview,   
       'highlighted':self.highlighted,
     }
+  
+  @classmethod
+  def update(cls, data, news_id):
+    try:
+      data = cls(**data)
+      news = News.query.get(news_id)
+      if news is not None:
+        news.title = data.title
+        news.subtitle = data.subtitle
+        news.summary = data.summary
+        news.highlighted = data.highlighted 
+        news.complete = data.complete
+    
+        if data.image.filename != '':
+          res_image = uploader.upload(data.image)
+          news.image = res_image["secure_url"]
+          news.public_id_image = res_image["public_id"]
+         
+        
+        if data.image_secondary.filename != '':
+          res_image_secondary = uploader.upload(data.image_secondary)
+          news.image_secondary = res_image_secondary["secure_url"]
+          news.public_id_secondary = res_image_secondary["public_id"]
+
+        if data.image_preview.filename != '':
+          res_image_preview = uploader.upload(data.image_preview)
+          news.image_preview = res_image_preview["secure_url"]
+          news.public_id_preview = res_image_preview["public_id"]
+
+        try:
+          db.session.commit()
+          return news
+        except Exception as error:
+          print(error.args)
+          db.session.rollback()
+          return None
+        return news
+      if news is None:
+        return None
+    except Exception as error:
+      return None
 
   
