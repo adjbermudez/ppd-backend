@@ -1,6 +1,6 @@
 from crypt import methods
 from flask import Flask, Blueprint, jsonify, request
-from api.models import User, Unore, News, db
+from api.models import User, Unore, News, Actualizacion, db
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import cloudinary.uploader as uploader
 import smtplib
@@ -226,7 +226,6 @@ def update_news(news_id=None):
   return jsonify({'message':'method not allowed'}),405
 
 
-
 @api.route("/news/<int:news_id>", methods=["DELETE"])
 @jwt_required()
 def delete_news(news_id=None):
@@ -307,5 +306,63 @@ def send_email():
   return jsonify({'message':'method not allowed'}),405
 
 
+@api.route("/actualizacion", methods=["POST"])
+@jwt_required()
+def create_actualizacion():
+  if request.method == "POST":
+    data = request.json
+
+    if data is None:
+      return jsonify({'message':'Bad request'}), 400
+    if data.get('amount') is None:
+      return jsonify({'message':'Bad request'}), 400
+    if data.get('name') is None:
+      return jsonify({'message':'Bad request'}), 400
+    if data.get('description') is None:
+      return jsonify({'message':'Bad request'}), 400
+    
+    actualizacion = Actualizacion.create(data)
+    if type(actualizacion) == Actualizacion:
+      return actualizacion.serialize(), 201
+    if actualizacion is None:
+      return jsonify({'message':'Error try again later'}), 500
+    return jsonify(), 500
+  return jsonify({'message':'method not allowed'}),405
+
+
+@api.route("/actualizacion", methods=["GET"])
+def get_actualizaciones():
+  if request.method == "GET":
+    actualizacciones = Actualizacion.get_all()
+    if actualizacciones is None:
+      return jsonify({'message':'Error try again later'}), 500
+    return jsonify([actualizacion.serialize() for actualizacion in actualizacciones]), 200
+  return jsonify({'message':'method not allowed'}),405
+
+
+@api.route("/actualizacion/<int:id>", methods=["PUT"])
+@jwt_required()
+def update_actualizacion(id=None):
+  if request.method == "PUT":
+    data = request.json
+
+    if id is None:
+      return jsonify({'message':'Bad request'}), 400
+    if data is None:
+      return jsonify({'message':'Bad request'}), 400
+    if data.get('amount') is None:
+      return jsonify({'message':'Bad request'}), 400
+    if data.get('name') is None:
+      return jsonify({'message':'Bad request'}), 400
+    if data.get('description') is None:
+      return jsonify({'message':'Bad request'}), 400
+    
+    actualizacion = Actualizacion.update(data, id)
+    if type(actualizacion) == Actualizacion:
+      return actualizacion.serialize(), 201
+    if actualizacion is None:
+      return jsonify({'message':'Error try again later'}), 500
+    return jsonify(), 500
+  return jsonify({'message':'method not allowed'}),405
 
 

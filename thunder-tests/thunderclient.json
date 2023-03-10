@@ -210,5 +210,57 @@
       "bearer": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2NjMyNTgzNywianRpIjoiMDg4NWJhNDktN2E5My00ZDE0LTg4ZmUtMjQ2NGI0YzIyMmM2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjY2MzI1ODM3LCJleHAiOjE2NjYzNjkwMzd9.aC9P1B2MGP6l7DqzT0AqRSb6KhlfuLY9LU8MEzaaGL0"
     },
     "tests": []
+  },
+  {
+    "_id": "949cd1c2-aa4e-43f6-bd5c-f1139b47982d",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "fbcc410b-f5c4-4c8c-a7b0-02b11ddfd406",
+    "name": "create_actualizacion",
+    "url": "http://localhost:3001/api/actualizacion",
+    "method": "POST",
+    "sortNum": 120000,
+    "created": "2023-03-09T21:59:01.730Z",
+    "modified": "2023-03-09T22:21:22.645Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"amount\":\"209\",\n  \"name\":\"Proyectos ambientales\",\n  \"description\":\"2010-2021\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "d29a9375-ef17-4651-92cc-fd877f9b8034",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "fbcc410b-f5c4-4c8c-a7b0-02b11ddfd406",
+    "name": "consulta",
+    "url": "http://localhost:3001/api/actualizacion",
+    "method": "GET",
+    "sortNum": 130000,
+    "created": "2023-03-09T22:33:17.862Z",
+    "modified": "2023-03-09T22:33:56.508Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "ddf67f91-be6f-412a-ad91-f77ed26b11be",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "fbcc410b-f5c4-4c8c-a7b0-02b11ddfd406",
+    "name": "update",
+    "url": "http://localhost:3001/api/actualizacion/1",
+    "method": "PUT",
+    "sortNum": 140000,
+    "created": "2023-03-09T22:45:21.465Z",
+    "modified": "2023-03-10T03:12:05.139Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"amount\":\"29\",\n  \"name\":\"Proyectos deimian eee4\",\n  \"description\":\"2010-2021\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

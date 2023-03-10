@@ -267,3 +267,65 @@ class News(db.Model):
       return None
 
   
+class Actualizacion(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  amount = db.Column(db.String(250), nullable=False)
+  name = db.Column(db.String(250), nullable=False)
+  description = db.Column(db.String(100), nullable=False)
+  created_at = db.Column(db.DateTime(timezone=True), default=db.func.now(), nullable=False)
+  updated_at = db.Column(db.DateTime(timezone=True), default=db.func.now(), onupdate=db.func.now(), nullable=False)
+
+  def serialize(self):
+    return {
+      'id':self.id,
+      'amount':self.amount,
+      'name':self.name,
+      'description':self.description,
+      'created_at':self.created_at,
+      'updated_at':self.updated_at
+    }
+
+
+  @classmethod
+  def create(cls, data):
+    try:
+      data = cls(**data)
+      db.session.add(data)
+      db.session.commit()
+      return data
+    except Exception as error:
+      db.session.rollback()
+      print(error.args)
+      return None
+
+
+  def get_all():
+    try:
+      actualizacion = Actualizacion.query.all()
+      if actualizacion is not None:
+        return actualizacion
+      else:
+        return None
+    except Exception as error:
+      return None
+    
+  @classmethod
+  def update(cls, data, id):
+    print(data, id)
+    try:
+      actualizacion = Actualizacion.query.get(id)
+      if actualizacion is not None:
+        actualizacion.amount = data['amount']
+        actualizacion.name = data['name']
+        actualizacion.description = data['description']
+        actualizacion.updated_at = datetime.now()
+        db.session.commit()
+        return actualizacion
+      else:
+        return None
+    except Exception as error:
+      print(error.args)
+      db.session.rollback()
+      return None
+    
+  
