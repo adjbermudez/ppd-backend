@@ -366,3 +366,24 @@ def update_actualizacion(id=None):
   return jsonify({'message':'method not allowed'}),405
 
 
+@api.route("/actualizacion/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_actualizacion(id=None):
+  if request.method == "DELETE":
+    if id is None:
+      return jsonify({'message':'Bad request'}), 400
+
+    actualizacion = Actualizacion.query.get(id)
+
+    if actualizacion is None:
+      return jsonify({'message':'Actualizacion not found'}), 404
+    
+    
+    try:
+      db.session.delete(actualizacion)
+      db.session.commit()
+      return jsonify({'message':'Actualizacion deleted'}), 204
+    except Exception as error:
+      print(error.args)
+      return jsonify({'message':'Error try again later'}), 500
+  return jsonify({'message':'method not allowed'}),405
