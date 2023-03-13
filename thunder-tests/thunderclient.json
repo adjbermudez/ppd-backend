@@ -262,5 +262,67 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "e84498f4-2694-474b-99d2-7348dc760532",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "388e1c37-6201-4248-9b5c-2108a898dd67",
+    "name": "create_banner",
+    "url": "http://localhost:3001/api/banner",
+    "method": "POST",
+    "sortNum": 160000,
+    "created": "2023-03-13T02:42:15.313Z",
+    "modified": "2023-03-13T04:08:44.322Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "title",
+          "value": "hola como estas este es el title"
+        },
+        {
+          "name": "subtitle",
+          "value": "como saben soy el subtitle"
+        }
+      ],
+      "files": [
+        {
+          "name": "banner",
+          "value": "../../../../../Downloads/4Geeks-768x768.png"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "c85c5df3-2c01-485e-8a17-2d23021b7685",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "388e1c37-6201-4248-9b5c-2108a898dd67",
+    "name": "get_banner",
+    "url": "http://localhost:3001/api/banner",
+    "method": "GET",
+    "sortNum": 170000,
+    "created": "2023-03-13T02:53:27.610Z",
+    "modified": "2023-03-13T02:53:54.815Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "975b83bf-5b3d-435d-9ceb-203b370de2c9",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "388e1c37-6201-4248-9b5c-2108a898dd67",
+    "name": "delete_banner",
+    "url": "http://localhost:3001/api/banner/5",
+    "method": "DELETE",
+    "sortNum": 180000,
+    "created": "2023-03-13T02:54:05.202Z",
+    "modified": "2023-03-13T03:29:48.403Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

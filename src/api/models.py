@@ -328,4 +328,45 @@ class Actualizacion(db.Model):
       db.session.rollback()
       return None
     
+
+class Banner(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  title = db.Column(db.String(250), nullable=False)
+  subtitle = db.Column(db.String(250), nullable=False)
+  image = db.Column(db.String(250), nullable=False)
+  public_id = db.Column(db.String(100), nullable=False)
+  created_at = db.Column(db.DateTime(timezone=True), default=db.func.now(), nullable=False)
+  updated_at = db.Column(db.DateTime(timezone=True), default=db.func.now(), onupdate=db.func.now(), nullable=False)
+
+  def serialize(self):
+    return {
+      'id':self.id,
+      'title':self.title,
+      'subtitle':self.subtitle,
+      'image':self.image,
+      'created_at':self.created_at,
+      'updated_at':self.updated_at
+    }
+
+  def get_all():
+    try:
+      banner = Banner.query.all()
+      if banner is not None:
+        return banner
+      else:
+        return None
+    except Exception as error:
+      return None
+    
   
+  @classmethod
+  def create(cls, data):
+    try:
+      data = cls(**data)
+      db.session.add(data)
+      db.session.commit()
+      return data
+    except Exception as error:
+      db.session.rollback()
+      print(error.args)
+      return None
