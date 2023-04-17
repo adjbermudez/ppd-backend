@@ -272,7 +272,7 @@
     "method": "POST",
     "sortNum": 160000,
     "created": "2023-03-13T02:42:15.313Z",
-    "modified": "2023-03-13T04:08:44.322Z",
+    "modified": "2023-03-13T21:14:22.311Z",
     "headers": [],
     "params": [],
     "body": {
@@ -281,17 +281,17 @@
       "form": [
         {
           "name": "title",
-          "value": "hola como estas este es el title"
+          "value": "Campamento Uruyen"
         },
         {
           "name": "subtitle",
-          "value": "como saben soy el subtitle"
+          "value": "Parque Nacional Canaima - Estado Bolívar"
         }
       ],
       "files": [
         {
           "name": "banner",
-          "value": "../../../../../Downloads/4Geeks-768x768.png"
+          "value": "../../../../../Downloads/campamentoUruyen.jpg"
         }
       ]
     },
@@ -306,7 +306,7 @@
     "method": "GET",
     "sortNum": 170000,
     "created": "2023-03-13T02:53:27.610Z",
-    "modified": "2023-03-13T02:53:54.815Z",
+    "modified": "2023-03-13T21:14:16.398Z",
     "headers": [],
     "params": [],
     "tests": []
@@ -316,11 +316,64 @@
     "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
     "containerId": "388e1c37-6201-4248-9b5c-2108a898dd67",
     "name": "delete_banner",
-    "url": "http://localhost:3001/api/banner/5",
+    "url": "http://localhost:3001/api/banner/7",
     "method": "DELETE",
     "sortNum": 180000,
     "created": "2023-03-13T02:54:05.202Z",
-    "modified": "2023-03-13T03:29:48.403Z",
+    "modified": "2023-03-13T13:23:35.997Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "f3d95d07-ef0f-4cdf-816e-c9e432557986",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "df6fce1a-abf7-4922-9c2c-3200f26cdf2f",
+    "name": "save_innovation",
+    "url": "http://localhost:3001/api/innovation",
+    "method": "POST",
+    "sortNum": 190000,
+    "created": "2023-04-17T02:54:49.067Z",
+    "modified": "2023-04-17T03:16:30.290Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "title",
+          "value": "Nueva innovations"
+        },
+        {
+          "name": "url_file",
+          "value": "PATProgramaAndesTropicales"
+        },
+        {
+          "name": "url_imgage",
+          "value": "",
+          "isDisabled": true
+        }
+      ],
+      "files": [
+        {
+          "name": "image",
+          "value": "../../../../../Downloads/image(1).png"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "b03732db-ae52-434d-bea4-071551292577",
+    "colId": "fd7f59cb-e599-4de7-8e6f-ce4cbe97f40e",
+    "containerId": "df6fce1a-abf7-4922-9c2c-3200f26cdf2f",
+    "name": "gel_all",
+    "url": "http://localhost:3001/api/innovation",
+    "method": "GET",
+    "sortNum": 200000,
+    "created": "2023-04-17T03:39:16.024Z",
+    "modified": "2023-04-17T03:39:37.459Z",
     "headers": [],
     "params": [],
     "tests": []

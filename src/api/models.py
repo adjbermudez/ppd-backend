@@ -370,3 +370,44 @@ class Banner(db.Model):
       db.session.rollback()
       print(error.args)
       return None
+    
+
+class Innovation(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  title = db.Column(db.String(250), nullable=False)
+  url_file = db.Column(db.String(250), nullable=False)
+  url_imgage = db.Column(db.String(250), nullable=False)
+  public_id = db.Column(db.String(100), nullable=False)
+  created_at = db.Column(db.DateTime(timezone=True), default=db.func.now(), nullable=False)
+  updated_at = db.Column(db.DateTime(timezone=True), default=db.func.now(), onupdate=db.func.now(), nullable=False)
+
+  def serialize(self):
+    return {
+      'id':self.id,
+      'title':self.title,
+      'url_file':self.url_file,
+      'url_imgage':self.url_imgage,
+      'created_at':self.created_at,
+      'updated_at':self.updated_at
+    }
+  
+  def get_all():
+    try:
+      innovation = Innovation.query.all()
+      if innovation is not None:
+        return innovation
+      else:
+        return None
+    except Exception as error:
+      return None
+    
+  @classmethod
+  def create(cls, data):
+    try:
+      data = cls(**data)
+      db.session.add(data)
+      db.session.commit()
+      return data
+    except Exception as error:
+      print(error.args)
+      return None
